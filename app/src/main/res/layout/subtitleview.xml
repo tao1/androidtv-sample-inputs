@@ -13,13 +13,28 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<com.google.android.exoplayer.text.SubtitleLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|center_horizontal"
-    android:layout_marginBottom="32dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:visibility="invisible" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="THIS IS OVERLAY"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="50dp" />
+
+    <com.google.android.exoplayer.text.SubtitleLayout
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp"
+        android:visibility="invisible" />
+
+</FrameLayout>

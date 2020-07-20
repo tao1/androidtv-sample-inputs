@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.accessibility.CaptioningManager;
 import com.example.android.sampletvinput.R;
@@ -131,7 +132,8 @@ public class RichTvInputService extends BaseTvInputService {
         @Override
         public View onCreateOverlayView() {
             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            mSubtitleView = (SubtitleLayout) inflater.inflate(R.layout.subtitleview, null);
+            ViewGroup overlayview = (ViewGroup) inflater.inflate(R.layout.subtitleview, null);
+            mSubtitleView = overlayview.findViewById(R.id.subtitle);
 
             // Configure the subtitle view.
             CaptionStyleCompat captionStyle;
@@ -143,7 +145,7 @@ public class RichTvInputService extends BaseTvInputService {
             mSubtitleView.setFixedTextSize(TEXT_UNIT_PIXELS, captionTextSize);
             mSubtitleView.setVisibility(View.VISIBLE);
 
-            return mSubtitleView;
+            return overlayview;
         }
 
         private List<TvTrackInfo> getAllTracks() {
@@ -168,11 +170,15 @@ public class RichTvInputService extends BaseTvInputService {
                             builder.setVideoWidth(format.maxWidth);
                         } else if (format.width != MediaFormat.NO_VALUE) {
                             builder.setVideoWidth(format.width);
+                        } else {
+                            builder.setVideoWidth(1920);
                         }
                         if (format.maxHeight != MediaFormat.NO_VALUE) {
                             builder.setVideoHeight(format.maxHeight);
                         } else if (format.height != MediaFormat.NO_VALUE) {
                             builder.setVideoHeight(format.height);
+                        } else {
+                            builder.setVideoHeight(1080);
                         }
                     } else if (trackType == DemoPlayer.TYPE_AUDIO) {
                         builder.setAudioChannelCount(format.channelCount);
@@ -351,7 +357,7 @@ public class RichTvInputService extends BaseTvInputService {
 
         @Override
         public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-                float pixelWidthHeightRatio) {
+                                       float pixelWidthHeightRatio) {
             // Do nothing.
         }
 
@@ -429,12 +435,12 @@ public class RichTvInputService extends BaseTvInputService {
             InternalProviderData internalProviderData = programToRecord.getInternalProviderData();
             internalProviderData.setRecordingStartTime(mStartTimeMs);
             RecordedProgram recordedProgram = new RecordedProgram.Builder(programToRecord)
-                        .setInputId(mInputId)
-                        .setRecordingDataUri(
-                                programToRecord.getInternalProviderData().getVideoUrl())
-                        .setRecordingDurationMillis(currentTime - mStartTimeMs)
-                        .setInternalProviderData(internalProviderData)
-                        .build();
+                    .setInputId(mInputId)
+                    .setRecordingDataUri(
+                            programToRecord.getInternalProviderData().getVideoUrl())
+                    .setRecordingDurationMillis(currentTime - mStartTimeMs)
+                    .setInternalProviderData(internalProviderData)
+                    .build();
             notifyRecordingStopped(recordedProgram);
         }
 
